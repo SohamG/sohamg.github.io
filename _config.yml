@@ -6,14 +6,14 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Gravity
+title: MemeTech
 email: hemangsk@gmail.com
-description: The Liberal Jekyll Theme
+description: Tech Stories and Guides
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: hemang_kumar
-github_username:  hemangsk
-paginate: 5
+url: "http://sohamg.github.io" # the base hostname & protocol for your site
+twitter_username: sohamg2
+github_username:  SohamG
+paginate: 3
 
 gems: [jekyll-paginate, kramdown]
 # Build settings
