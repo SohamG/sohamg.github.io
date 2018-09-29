@@ -18,3 +18,5 @@ paginate: 3
 gems: [jekyll-paginate, kramdown]
 # Build settings
 markdown: kramdown
+
+theme: jekyll-theme-minimal
