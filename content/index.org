@@ -1,0 +1,32 @@
+#+TITLE: Soham's Epic Website
+#+OPTIONS: toc:nil
+
+Welcome to Soham's Website.
+
+* Warning
+
+This website contains a healthy mix of my opinions and shitposts.
+
+The distinction is left as an exercise to the reader.
+
+* Website FAQ
+:PROPERTIES:
+:CUSTOM_ID: faq
+:END:
+
+** Website looks ugly
+
+Change your ~monospace~ font!
+
+** Website text too small
+
+Zoom in!
+
+** Dark mode where?
+
+Install an extension or something.
+
+
+* Sitemap
+
+#+INCLUDE: sitemap.org
