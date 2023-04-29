@@ -29,5 +29,5 @@ Install an extension or something.
 
 * Curated Links
 
-Coming soon...
+- [[file:vim.org][Vim - The Greatest Text Editor]]
 
