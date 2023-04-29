@@ -1,4 +1,18 @@
 html {
-	margin-right: 900px;
+	margin-right: 25%;
 	font-family: monospace;
+	font-size: large;
+	scroll-behavior: smooth;
+	background-color: ivory;
+}
+
+h1, h2 {
+	/* text-decoration: wavy underline; */
+}
+
+@media (max-width: 700px) {
+	html {
+		margin-right: auto;
+		font-size: initial;
+	}
 }

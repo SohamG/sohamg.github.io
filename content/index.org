@@ -27,6 +27,7 @@ Zoom in!
 Install an extension or something.
 
 
-* Sitemap
+* Curated Links
 
-#+INCLUDE: sitemap.org
+Coming soon...
+
