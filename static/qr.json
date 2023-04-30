@@ -1,4 +1,7 @@
 {
+	"type": "photo",
+	"url": "https://sohamg.xyz/static/qr.png"
+	"version": 1.0,
 	"width": 939,
 	"height": 939,
 	"title": "Please scan this QR Code.",
