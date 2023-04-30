@@ -1,0 +1,38 @@
+#+TITLE: Communism Death Count Calculator
+#+OPTIONS: toc:nil
+#+HTML_HEAD_EXTRA: <script src="//unpkg.com/alpinejs" defer></script>
+
+* Enter your favorite number
+
+#+BEGIN_EXPORT html
+<div x-data="myData()">
+<input type="number" x-model="input" placeholder="Enter your favorite number">
+
+<button @click="handleClick()" @click.outside="open=false">Calculate!!</button>
+
+<h1 x-show="open" x-transition>
+Communism has killed <span x-text="input"> </span> <span x-text="word"> </span>!!
+</h1>
+</div>
+<script>
+
+function myData() {
+return {
+input: 0,
+open: false,
+word: '',
+	handleClick() {
+		let words = ["Quintillion", "Quadrillion", "Bajillion", "Trillion", "Fucktillion"];
+		let rand = Math.floor(Math.random() * words.length);
+
+		if (this.input > 0) this.open=true;
+
+		// # Alpine.store('word', words[rand]);
+
+		this.word = words[rand];
+		console.log(words[rand]);
+	}
+}
+}
+</script>
+#+END_EXPORT

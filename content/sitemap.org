@@ -1,4 +1,5 @@
 #+TITLE: 
 
+- [[file:communism.org][Communism Death Count Calculator]]
 - [[file:index.org][Soham's Epic Website]]
 - [[file:vim.org][Vim - The greatest text editor]]

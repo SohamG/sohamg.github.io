@@ -1,0 +1,4 @@
+#+TITLE: QR Code
+#+HTML_HEAD: <meta property="og:image" content="https://sohamg.xyz/static/qr.png" />
+
+* Stop scanning random QR codes lol
