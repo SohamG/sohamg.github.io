@@ -1,10 +1,8 @@
 #+TITLE: QR Code
 #+HTML_HEAD: <meta property="og:title" content="Please scan this QR Code" />
 #+HTML_HEAD: <meta property="og:image" content="https://sohamg.xyz/static/qr.png" />
-#+HTML_HEAD: <meta property="og:image:width" content="939" />
-#+HTML_HEAD: <meta property="og:image:height" content="939" />
 #+HTML_HEAD: <link rel="stylesheet" href="https://sohamg.xyz/static/style.css" />
-#+HTML_HEAD: <meta name="twitter:card" content="summary_large_image" />
+#+HTML_HEAD: <link type="application/json+oembed" href="https://sohamg.xyz/static/qr.json" />
 #+OPTIONS: toc:nil
 
 * Stop scanning random QR codes lol
