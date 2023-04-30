@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-04-30 Sun 15:28 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Communism Death Count Calculator</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" href="static/style.css" /><meta property="og:title" content="Soham's Website" /><meta property="og:url" content="https://sohamg.xyz" /><meta property="og:image"content="https://sohamg.xyz/img.png" /> <meta property="og:type" content="website" />
+<script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Communism Death Count Calculator</h1>
+
+<div id="outline-container-org42643ad" class="outline-2">
+<h2 id="org42643ad">Enter your favorite number</h2>
+<div class="outline-text-2" id="text-org42643ad">
+<div x-data="myData()">
+<input type="number" x-model="input" placeholder="Enter your favorite number">
+
+<button @click="handleClick()" @click.outside="open=false">Calculate!!</button>
+
+<h1 x-show="open" x-transition>
+Communism has killed <span x-text="input"> </span> <span x-text="word"> </span>!!
+</h1>
+</div>
+<script>
+
+function myData() {
+return {
+input: 0,
+open: false,
+word: '',
+	handleClick() {
+		let words = ["Quintillion", "Quadrillion", "Bajillion", "Trillion", "Fucktillion"];
+		let rand = Math.floor(Math.random() * words.length);
+
+		if (this.input > 0) this.open=true;
+
+		// # Alpine.store('word', words[rand]);
+
+		this.word = words[rand];
+		console.log(words[rand]);
+	}
+}
+}
+</script>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<footer><hr />Made with Emacs <br /> CC-BY-SA </footer>
+</div>
+</body>
+</html>
