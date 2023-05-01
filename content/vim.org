@@ -10,4 +10,13 @@ setTimeout(() => {
 
 * Vim is AWESOME!
 
-Vim is literally the greatest text editor ever. The emai
+Vim is literally the greatest text editor ever. The emacs people are **CLEARLY** wrong.
+How can anyone dislike VIM? It literally says "improved" in the name!
+
+* Reasons Vim is Awesome
+
+1. Its not Emacs.
+2. Its not VSCode.
+3. Its not **__*BLOATED*__**
+
+

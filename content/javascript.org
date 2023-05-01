@@ -25,7 +25,7 @@ NO, your personal blog doesn't need _REACT JS_!
 And it will probably crash by the time you're done reading!
 
 #+BEGIN_EXPORT html
-<script type="module" async>
+<script async>
 addEventListener("DOMContentLoaded", () => {
 while (1) {
 setTimeout(() => {  console.log("JS BAD!"); }, 500);
