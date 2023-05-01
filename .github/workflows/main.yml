@@ -9,13 +9,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     container:
-      image: silex/emacs
+      image: ghcr.io/sohamg/emacs
     steps:
       - name: Check out
         uses: actions/checkout@v1
-        
-      - name: Install rsync
-        run: apt install rsync
         
       - name: Build the site
         run: ./build.sh
