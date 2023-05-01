@@ -30,4 +30,4 @@ Install an extension or something.
 * Curated Links
 
 - [[file:vim.org][Vim - The Greatest Text Editor]]
-
+- [[file:javascript.org][Please stop using JavaScript!]]
