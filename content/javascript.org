@@ -3,11 +3,26 @@
 
 * PLEASE STOP USING JAVASCRIPT
 
-Reasons to stop using JavaScript
+** Reasons to stop using JavaScript
 
 1. Because I said so.
 
 2. More reasons are left as an exercise to the reader.
+
+
+* Can != Should
+
+Just because you **CAN** use javascript doesn't mean you **SHOULD**!!
+
+NO, your personal blog doesn't need _REACT JS_!
+
+* What in the hell is a build tool?!
+
+**WHY** do I need a build tool to use basically any javascript??
+
+* THIS WEBSITE USES JAVASCRIPT
+
+And it will probably crash by the time you're done reading!
 
 #+BEGIN_EXPORT html
 <script defer>
