@@ -18,16 +18,23 @@ The distinction is left as an exercise to the reader.
 
 Change your ~monospace~ font!
 
+This website uses your default monospace font!
+
 ** Website text too small
 
 Zoom in!
 
 ** Dark mode where?
 
-Install an extension or something.
+Install an extension or something!
 
 
 * Curated Links
 
 - [[file:vim.org][Vim - The Greatest Text Editor]]
 - [[file:javascript.org][Please stop using JavaScript!]]
+
+
+* Sitemap
+
+[[file:sitemap.org][Sitemap]]

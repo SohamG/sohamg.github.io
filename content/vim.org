@@ -2,6 +2,12 @@
 
 #+BEGIN_EXPORT html
 <script>
-window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+setTimeout(() => {
+	window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+}, 2000);
 </script>
 #+END_EXPORT
+
+* Vim is AWESOME!
+
+Vim is literally the greatest text editor ever. The emai
