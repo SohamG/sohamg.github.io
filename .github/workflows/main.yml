@@ -17,13 +17,13 @@ jobs:
       - name: Build the site
         run: ./build.sh
         
-      - name: Set Git details
-        run: |
-          git config --global user.name "gh-runner"
-          git config --global user.email "gh-runner@example.com"
+      - name: Configure git to trust the workspace despite the different owner
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Publish generated content to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
           folder: public
+          git-config-name: "gh-runner"
+          git-config-email: "gh@example.com"
