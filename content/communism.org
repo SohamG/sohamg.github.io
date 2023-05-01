@@ -10,29 +10,28 @@
 
 <button @click="handleClick()" @click.outside="open=false">Calculate!!</button>
 
-<h1 x-show="open" x-transition>
+<h1 x-cloak x-show="open" x-transition>
 Communism has killed <span x-text="input"> </span> <span x-text="word"> </span>!!
 </h1>
 </div>
 <script>
 
 function myData() {
-return {
-input: 0,
-open: false,
-word: '',
-	handleClick() {
-		let words = ["Quintillion", "Quadrillion", "Bajillion", "Trillion", "Fucktillion"];
-		let rand = Math.floor(Math.random() * words.length);
+	return {
+	input: 0,
+	open: false,
+	word: '',
+		handleClick() {
+			let words = ["Quintillion", "Quadrillion", "Bajillion",
+			"Trillion", "Fucktillion", "Gazillion"];
+			let rand = Math.floor(Math.random() * words.length);
 
-		if (this.input > 0) this.open=true;
+			if (this.input > 0) this.open=true;
 
-		// # Alpine.store('word', words[rand]);
-
-		this.word = words[rand];
-		console.log(words[rand]);
+			this.word = words[rand];
+			console.log(words[rand]);
+		}
 	}
-}
 }
 </script>
 #+END_EXPORT

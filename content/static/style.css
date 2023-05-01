@@ -1,5 +1,5 @@
 html {
-	margin-right: 25%;
+	margin-right: 50%;
 	font-family: monospace;
 	font-size: large;
 	scroll-behavior: smooth;
@@ -9,6 +9,8 @@ html {
 h1, h2 {
 	/* text-decoration: wavy underline; */
 }
+
+[x-cloak] { display: none !important; }
 
 @media (max-width: 700px) {
 	html {

@@ -1,0 +1,21 @@
+#+TITLE: JavaScript is LITERALLY GARBAGE
+
+
+* PLEASE STOP USING JAVASCRIPT
+
+Reasons to stop using JavaScript
+
+1. Because I said so.
+
+2. More reasons are left as an exercise to the reader.
+
+#+BEGIN_EXPORT html
+<script defer>
+addEventListener("load", () => {
+while (1) {
+setTimeout(() => {  console.log("JS BAD!"); }, 500);
+}
+})
+</script>
+#+END_EXPORT
+   

@@ -1,6 +1,7 @@
 #+TITLE: 
 
 - [[file:communism.org][Communism Death Count Calculator]]
+- [[file:javascript.org][JavaScript is LITERALLY GARBAGE]]
 - [[file:qr.org][QR Code]]
 - [[file:index.org][Soham's Epic Website]]
 - [[file:vim.org][Vim - The greatest text editor]]
