@@ -1,0 +1,7 @@
+#+Title: Soham's Resume
+
+#+BEGIN_EXPORT html
+<script>
+	window.location.replace("sohamg.xyz/static/resume.pdf");
+</script>
+#+END_EXPORT

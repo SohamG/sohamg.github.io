@@ -4,7 +4,7 @@
 <script>
 setTimeout(() => {
 	window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-}, 2000);
+}, 5000);
 </script>
 #+END_EXPORT
 
