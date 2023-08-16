@@ -1,0 +1,11 @@
+#+TITLE: Soham's Links
+
+* Github
+https://github.com/sohamg
+
+* Email
+sohamg2 at gmail d0t com
+
+* IJERT Paper
+
+[[https://www.ijert.org/ethics-in-artificial-intelligence-and-machine-learning][Ethics in AI and ML]]
