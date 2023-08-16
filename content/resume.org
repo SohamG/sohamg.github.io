@@ -1,5 +1,6 @@
 #+Title: Soham's Resume
 
+Redirecting to pdf...
 #+BEGIN_EXPORT html
 <script>
 	window.location.replace("static/resume.pdf");
