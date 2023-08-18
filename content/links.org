@@ -2,7 +2,10 @@
 
 * Github
 Personal: https://github.com/sohamg
-Student Org: https://github.com/acm-uic | https://github.com/lugatuic
+
+Student Org:
+		- https://github.com/acm-uic
+		- https://github.com/lugatuic
 
 ** Cerberus
 https://github.com/lugatuic/cerberus
