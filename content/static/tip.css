@@ -18,15 +18,15 @@ div {
   align-items: center;
   justify-content: space-between;
   margin: 0.5em;
-  font-size: 1.2em;
+  font-size: 120%;
 }
 
 .percent {
-  padding: 3em;
+  padding: 10%;
   background-color: royalblue;
   color: antiquewhite;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: clamp(100%, 150%, 2vw);
 }
 
 .row2 {
