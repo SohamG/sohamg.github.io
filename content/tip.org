@@ -1,0 +1,58 @@
+#+HTML_HEAD: <script type="module" src="/static/tip.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" href="/static/tip.css" />
+#+OPTIONS: html-postamble:nil
+#+TITLE: Would you like to leave a tip?
+
+
+ #+BEGIN_EXPORT html
+    <div id="container">
+      <div class="row dollar">$69.420</div>
+      <div class="row">
+        <div class="percent" id="fifteenbtn">15%</div>
+        <div class="percent" id="twentyfivebtn">25%</div>
+        <div class="percent" id="thirtyfivebtn">35%</div>
+      </div>
+      <div class="row row2" id="custombtn">Custom Amount</div>
+      <div class="row row2" id="notipbtn">No Tip</div>
+    </div>
+
+    <dialog id="notipmdl">
+      <strong
+        >You are an objectively bad human being. Stick to folgers and instant
+        ramen</strong
+      >
+      <form method="dialog"><button>Okay :'(</button></form>
+    </dialog>
+    <dialog id="custommdl">
+      <strong
+        >So you have enough time to type in your favorite number? Holding up the
+        line??????
+      </strong>
+      <form method="dialog">
+        <button type="submit">I accept my special place in hell</button>
+      </form>
+    </dialog>
+    <dialog id="fifteenmdl">
+      <strong
+        >Everyday thousands of tipped staff die due to lack of hair dye in
+        Africa DONT YOU CARE??</strong
+      >
+      <form method="dialog"><button>I dont have a soul.</button></form>
+    </dialog>
+    <dialog id="twentyfivemdl">
+      <strong
+        >No one ACTUALLY clicks the middle button youre just being
+        rebellious.</strong
+      >
+      <form method="dialog">
+        <button>I was the weird kid in school.</button>
+      </form>
+    </dialog>
+    <dialog id="thirtyfivemdl">
+      <strong
+        >Thanks for tipping an average (but still low) amount. Your money will
+        definitely not be wasted on another nose piercing.</strong
+      >
+      <form method="dialog"><button>Oh well</button></form>
+    </dialog>
+#+END_EXPORT

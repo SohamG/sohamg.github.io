@@ -1,0 +1,45 @@
+div {
+  /* border-style: dotted; */
+  font-family: sans-serif;
+  /* font-size: ; */
+}
+
+#container {
+  display: flex;
+
+  flex-direction: column;
+  max-width: 50em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5em;
+  font-size: 1.2em;
+}
+
+.percent {
+  padding: 3em;
+  background-color: royalblue;
+  color: antiquewhite;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.row2 {
+  padding: 1.5em 0 1.5em 0.5em;
+  background-color: royalblue;
+  color: antiquewhite;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.dollar {
+  display: flex;
+  justify-content: center;
+  font-size: 7em;
+}
