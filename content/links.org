@@ -1,11 +1,28 @@
 #+TITLE: Soham's Links
 
 * Github
-https://github.com/sohamg
+Personal: https://github.com/sohamg
+Student Org: https://github.com/acm-uic | https://github.com/lugatuic
+
+** Cerberus
+https://github.com/lugatuic/cerberus
+
+* Student Orgs
+Linux User Group @ UIC: https://lug.cs.uic.edu
+
+Association for Computing Machinery (ACM) @ UIC: https://acm.cs.uic.edu
 
 * Email
 sohamg2 at gmail d0t com
 
 * IJERT Paper
-
+A descriptive summary of ethical and unethical uses of AI.
 [[https://www.ijert.org/ethics-in-artificial-intelligence-and-machine-learning][Ethics in AI and ML]]
+
+* GPG Key
+
+#+BEGIN_QUOTE
+E067520F5EF2C1753F6050C0BA46725F6A267442
+#+END_QUOTE
+
+Primary email as listed above.
