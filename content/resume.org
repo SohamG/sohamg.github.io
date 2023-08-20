@@ -1,8 +1,15 @@
 #+Title: Soham's Resume
 
-Redirecting to pdf...
+
 #+BEGIN_EXPORT html
-<script>
+<!--- <script>
 	window.location.replace("static/resume.pdf");
-</script>
+</script> -->
+
+<object
+data="/static/resume.pdf"
+type="application/pdf" width="100%" height="800px">
+<p>Could not embed PDF. Click <a href="/static/resume.pdf"> Here </a>
+</p>
+</object>
 #+END_EXPORT
