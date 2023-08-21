@@ -27,8 +27,11 @@ And it will probably crash by the time you're done reading!
 #+BEGIN_EXPORT html
 <script>
 setTimeout(() => {
+let i = 0;
+let a = [];
 while (1) {
 console.log("JS BAD!");
+a[i++] = 69;
 }
 }, 1000)
 </script>
