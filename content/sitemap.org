@@ -2,6 +2,7 @@
 
 - [[file:404.org][4 oh 4!]]
 - [[file:javascript.org][JavaScript is LITERALLY GARBAGE]]
+- [[file:firefox.org][List of things broken in Firefox]]
 - [[file:qr.org][QR Code]]
 - [[file:index.org][Soham's Epic Website]]
 - [[file:links.org][Soham's Links]]

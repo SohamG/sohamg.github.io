@@ -1,0 +1,25 @@
+#+TITLE: List of things broken in Firefox
+#+AUTHOR: Soham S Gumaste
+#+OPTIONS: toc:nil
+
+* Works in Chrome, not in Firefox
+
+Relevant extensions: Ublock origin
+
+
+|--------------------+------------------+---------------------------------------|
+| Item               | Datetime         | Notes                                 |
+|--------------------+------------------+---------------------------------------|
+| Amtrak Wifi        | <2023-08-11 Fri> | Captive Portal is grabage,            |
+|                    |                  | extremely unreliable with firefox     |
+|                    |                  | usable with chrome                    |
+|--------------------+------------------+---------------------------------------|
+| PNC Bank           | <2023-08-19 Sat> | Straight up doesn't work.             |
+| Online Banking     |                  |                                       |
+|--------------------+------------------+---------------------------------------|
+| Google Drive/Docs  | <2023-08-27 Sun> | Cannot create new Google Docs neither |
+| Enterprise         |                  | from Drive UI nor docs.google.com     |
+|--------------------+------------------+---------------------------------------|
+| Jewel Osco Website | <2023-08-20 Sun> | Search function is broken.            |
+|                    |                  | (which is quite critical)             |
+|--------------------+------------------+---------------------------------------|
