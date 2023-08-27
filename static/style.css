@@ -19,3 +19,15 @@ h1, h2 {
 		font-size: initial;
 	}
 }
+
+th {
+		border-bottom: 5px solid black;
+}
+
+tr:first-child {
+		border-top: 3px solid darkgray;
+}
+
+table {
+		border-collapse: collapse;
+}
