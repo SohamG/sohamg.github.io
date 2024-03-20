@@ -23,7 +23,7 @@
 (setq org-html-validation-link nil            ;; Don't show validation link
       org-html-head-include-scripts nil       ;; Use our own scripts
       org-html-head-include-default-style nil ;; Use our own styles
-	 org-html-doctype "xhtml5"
+	  org-html-doctype "xhtml-strict"
 	 org-html-postamble "<footer><hr />Made with Emacs <br /> CC-BY-SA </footer>")
 
 (setq org-html-head (concat "<link rel=\"stylesheet\" href=\"static/style.css\" />"
