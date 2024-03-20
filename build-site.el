@@ -23,6 +23,7 @@
 (setq org-html-validation-link nil            ;; Don't show validation link
       org-html-head-include-scripts nil       ;; Use our own scripts
       org-html-head-include-default-style nil ;; Use our own styles
+      org-html-extension "xhtml"
 	  org-html-doctype "xhtml-strict"
 	 org-html-postamble "<footer><hr />Made with Emacs <br /> CC-BY-SA </footer>")
 
@@ -30,7 +31,7 @@
 							"<meta property=\"og:title\" content=\"Soham's Website\" />"
 							"<meta property=\"og:url\" content=\"https://sohamg.xyz\" />"
 							"<meta property=\"og:image\""
-							"content=\"https://sohamg.xyz/img.png\" /> "
+							" content=\"https://sohamg.xyz/img.png\" /> "
 							"<meta property=\"og:type\" content=\"website\" />"))
 ;; Define the publishing project
 (setq org-publish-project-alist
@@ -49,6 +50,7 @@
 	 :makeindex nil
 	 :exclude "events.org"
 	 :auto-sitemap t
+     :html-extension "xhtml"
 	 :sitemap-title ""
 	 :postamble "CC-BY-SA")
 	;; ("personal-static"
