@@ -8,8 +8,6 @@ on:
 jobs:
   publish:
     runs-on: self-hosted
-    container:
-      image: ghcr.io/sohamg/emacs
     steps:
       - name: Check out
         uses: actions/checkout@v1
