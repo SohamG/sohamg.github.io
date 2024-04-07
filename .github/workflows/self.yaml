@@ -1,0 +1,21 @@
+name: Clone and build website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/sohamg/emacs
+    steps:
+      - name: Check out
+        uses: actions/checkout@v1
+        
+      - name: Build the site
+        run: ./build.sh
+        
+      - name: Configure git to trust the workspace despite the different owner
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
