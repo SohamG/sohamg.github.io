@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-06-16 Mon 01:33 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-06-16 Mon 15:00 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bootc and Rhel Image Mode</title>
 <meta name="generator" content="Org Mode" />
@@ -17,12 +15,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org69d8bbb">Use transient everything, especially transient /etc, otherwise:</a></li>
-<li><a href="#org06e82b1">Transient etc gotchas</a></li>
-<li><a href="#org7e9985e">Kickstart gotchas</a></li>
-<li><a href="#org45f8627">OSTree observations</a></li>
-<li><a href="#org607d1eb">Containerfile and general tips</a></li>
-<li><a href="#orgf3f6adc">Nvidia Misery</a></li>
+<li><a href="#org80a2315">Use transient everything, especially transient /etc</a></li>
+<li><a href="#orge9c70cd">Transient etc gotchas</a></li>
+<li><a href="#org748fc75">Kickstart gotchas</a></li>
+<li><a href="#org89b40d8">OSTree observations</a></li>
+<li><a href="#orge4f3aa6">Containerfile and general tips</a></li>
+<li><a href="#org995103e">Nvidia Misery</a></li>
 </ul>
 </div>
 </div>
@@ -43,9 +41,9 @@ These were originally written as notes/brain dump. The context is that I am
 trying to make a Slurm/Jupyter notebook cluster for my student org.
 </p>
 
-<div id="outline-container-org69d8bbb" class="outline-2">
-<h2 id="org69d8bbb">Use transient everything, especially transient /etc, otherwise:</h2>
-<div class="outline-text-2" id="text-org69d8bbb">
+<div id="outline-container-org80a2315" class="outline-2">
+<h2 id="org80a2315">Use transient everything, especially transient /etc</h2>
+<div class="outline-text-2" id="text-org80a2315">
 <ul class="org-ul">
 <li>Files created manually stay in /etc forever, can't edir or delete via
 container upgrade.</li>
@@ -63,9 +61,9 @@ container ACTUALLY propogate, are installed and functional.
 </div>
 </div>
 
-<div id="outline-container-org06e82b1" class="outline-2">
-<h2 id="org06e82b1">Transient etc gotchas</h2>
-<div class="outline-text-2" id="text-org06e82b1">
+<div id="outline-container-orge9c70cd" class="outline-2">
+<h2 id="orge9c70cd">Transient etc gotchas</h2>
+<div class="outline-text-2" id="text-orge9c70cd">
 <ul class="org-ul">
 <li>Note that SELinux will have a stroke because of all this /etc and /var
 business. I turn it off completely.</li>
@@ -106,20 +104,20 @@ installer shell script as the kickstart/anaconda settings will be lost
 
 <li>Systemd Tricks:
 <ul class="org-ul">
-<li>Use `/etc/systemd/service/foo.service.d/something.conf` to override existing
+<li>Use <code>/etc/systemd/service/foo.service.d/something.conf</code> to override existing
 services.</li>
 <li><p>
 While overriding, need to set list-able value to blank to overwrite.  Eg.
 </p>
 <div class="org-src-container">
 <pre class="src src-conf"><span style="font-weight: bold; font-style: italic;">ExecStart</span>=
-<span style="font-weight: bold; font-style: italic;">ExecStart</span>= new-script.sh
+<span style="font-weight: bold; font-style: italic;">ExecStart</span>=new-script.sh
 </pre>
 </div></li>
 <li>Run systemctl enable in Containerfile to create symlinks for activating on
 boot
 <ul class="org-ul">
-<li>Alternative is to manually make symlinks under `multi-user.target.wants`
+<li>Alternative is to manually make symlinks under <code>multi-user.target.wants</code>
 dir etc.</li>
 </ul></li>
 
@@ -139,9 +137,9 @@ ssh host keys</li>
 </div>
 </div>
 
-<div id="outline-container-org7e9985e" class="outline-2">
-<h2 id="org7e9985e">Kickstart gotchas</h2>
-<div class="outline-text-2" id="text-org7e9985e">
+<div id="outline-container-org748fc75" class="outline-2">
+<h2 id="org748fc75">Kickstart gotchas</h2>
+<div class="outline-text-2" id="text-org748fc75">
 <ul class="org-ul">
 <li>Transient etc will make stuff from kickstart NOT persist! Eg root password,
 hostname, fstab</li>
@@ -171,9 +169,9 @@ it wrong&#x2026;</li>
 </div>
 </div>
 
-<div id="outline-container-org45f8627" class="outline-2">
-<h2 id="org45f8627">OSTree observations</h2>
-<div class="outline-text-2" id="text-org45f8627">
+<div id="outline-container-org89b40d8" class="outline-2">
+<h2 id="org89b40d8">OSTree observations</h2>
+<div class="outline-text-2" id="text-org89b40d8">
 <ul class="org-ul">
 <li>Whole system is a web of (bind) mounts. Bind mounts in bootc = symlinks in
 NixOS.</li>
@@ -186,7 +184,7 @@ transient etc)</li>
 <li>This runs the currently undocumented command <code>ostree admin finalize-staged</code></li>
 </ul></li>
 
-<li>/var is populated once at first boot and never again. Do NOT rely on OSTree to
+<li>/var is populated once at first boot and never again. Do <b>NOT</b> rely on OSTree to
 fix your mistakes in /var!</li>
 
 <li>That said, a pristine /var does exist under /sysroot or /ostree for manual
@@ -203,9 +201,9 @@ a git repo.</li>
 </div>
 
 
-<div id="outline-container-org607d1eb" class="outline-2">
-<h2 id="org607d1eb">Containerfile and general tips</h2>
-<div class="outline-text-2" id="text-org607d1eb">
+<div id="outline-container-orge4f3aa6" class="outline-2">
+<h2 id="orge4f3aa6">Containerfile and general tips</h2>
+<div class="outline-text-2" id="text-orge4f3aa6">
 <ul class="org-ul">
 <li>What's a Dockerfile?</li>
 
@@ -238,9 +236,19 @@ created via the container. Software may REQUIRE particular permissions!
 <li>Add Kernel cmdline arguments by creating toml files with key "kargs" and value
 string array in <code>/usr/lib/bootc/kargs.d/</code>
 <ul class="org-ul">
-<li>A good one is <code>kargs = ["selinux=0"]</code></li>
+<li><p>
+A good one is:
+</p>
+<div class="org-src-container">
+<pre class="src src-toml"># /usr/lib/bootc/kargs.d/10-selinux.conf
+kargs = ["selinux=0"]
+</pre>
+</div></li>
 </ul></li>
+</ul>
 
+
+<ul class="org-ul">
 <li>Remember to <code>chmod +x</code> stuff you want to execute! I do it in the
 Containerfile.</li>
 
@@ -273,9 +281,9 @@ immutable/transient directories.
 </div>
 </div>
 
-<div id="outline-container-orgf3f6adc" class="outline-2">
-<h2 id="orgf3f6adc">Nvidia Misery</h2>
-<div class="outline-text-2" id="text-orgf3f6adc">
+<div id="outline-container-org995103e" class="outline-2">
+<h2 id="org995103e">Nvidia Misery</h2>
+<div class="outline-text-2" id="text-org995103e">
 <ul class="org-ul">
 <li>Containerfile from fedora bootc examples doesn't work (for me atleast).
 <ul class="org-ul">
