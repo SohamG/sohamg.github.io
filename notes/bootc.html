@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-06-16 Mon 01:33 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bootc and Rhel Image Mode</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/static/style.css" /><meta property="og:title" content="Soham's Website" /><meta property="og:url" content="https://sohamg.xyz" /><meta property="og:image" content="https://sohamg.xyz/img.png" /> <link rel="me" href="https://discuss.systems/@zleet" /><meta property="og:type" content="website" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Bootc and Rhel Image Mode</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org69d8bbb">Use transient everything, especially transient /etc, otherwise:</a></li>
+<li><a href="#org06e82b1">Transient etc gotchas</a></li>
+<li><a href="#org7e9985e">Kickstart gotchas</a></li>
+<li><a href="#org45f8627">OSTree observations</a></li>
+<li><a href="#org607d1eb">Containerfile and general tips</a></li>
+<li><a href="#orgf3f6adc">Nvidia Misery</a></li>
+</ul>
+</div>
+</div>
+<p>
+TL;DR: RedHat announced this at summit, I thought its finally ready for prod,
+started using it everywhere and realized how underdeveloped the ecosystem is,
+and decided to dump my experiences here.
+</p>
+
+<p>
+IMHO some if not most of the stuff here, such as the transient etc woes should
+be handled by the base images themselves, rather than leaving them out for the
+user with minimal warning.
+</p>
+
+<p>
+These were originally written as notes/brain dump. The context is that I am
+trying to make a Slurm/Jupyter notebook cluster for my student org.
+</p>
+
+<div id="outline-container-org69d8bbb" class="outline-2">
+<h2 id="org69d8bbb">Use transient everything, especially transient /etc, otherwise:</h2>
+<div class="outline-text-2" id="text-org69d8bbb">
+<ul class="org-ul">
+<li>Files created manually stay in /etc forever, can't edir or delete via
+container upgrade.</li>
+
+<li>Don't want to lose control over system, container should be source of truth.</li>
+
+<li>Transient etc (and everything else) is the only way to ensure changes to the
+container ACTUALLY propogate, are installed and functional.
+<ul class="org-ul">
+<li>Harder to reason about change propogation in non-transient systems.</li>
+</ul></li>
+
+<li>No point using this technology without transient/composefs root ie <code>/</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org06e82b1" class="outline-2">
+<h2 id="org06e82b1">Transient etc gotchas</h2>
+<div class="outline-text-2" id="text-org06e82b1">
+<ul class="org-ul">
+<li>Note that SELinux will have a stroke because of all this /etc and /var
+business. I turn it off completely.</li>
+
+<li>Note also that while etc is transient at runtime, it is mutable and persistent
+and container build time, ie in the Containerfile</li>
+
+<li>SSH Host keys will re-gen on reboot!
+<ul class="org-ul">
+<li>Use HostKey directive in config, store keys in /var</li>
+<li>I made a service override for <code>sshd-keygen@.service</code> to call my script,
+which is a copy of the original but makes the keys in /var
+<ul class="org-ul">
+<li>Note that atleast on centos-stream9-bootc a systemd target
+<code>sshd-keygen.target</code> exists, which <code>wants</code> the units <code>sshd-keygen@ed25519</code>
+etc. An alternative is to kill this altogether target and make keys
+manually with a shell script.</li>
+</ul></li>
+</ul></li>
+
+<li>Machine ID is lost
+<ul class="org-ul">
+<li>Apparently this is important for systemd</li>
+<li>Use tmpfiles.d to store initial machine id in var, make symlink.</li>
+</ul></li>
+
+<li>Repeat for /etc/hostname. I'd recommend injecting the hostname to /var from a
+installer shell script as the kickstart/anaconda settings will be lost
+(more on this later)</li>
+
+<li>Use <code>systemd-firstboot</code> to setup locale and keymap and etc.
+<ul class="org-ul">
+<li>Note that this can't be used for hostname as that is different per-machine.</li>
+<li>Install dnf package <code>langpacks-en</code> to get locale <code>en_US.UTF-8</code></li>
+</ul></li>
+
+<li>Use /var for machine specific files</li>
+
+<li>Systemd Tricks:
+<ul class="org-ul">
+<li>Use `/etc/systemd/service/foo.service.d/something.conf` to override existing
+services.</li>
+<li><p>
+While overriding, need to set list-able value to blank to overwrite.  Eg.
+</p>
+<div class="org-src-container">
+<pre class="src src-conf"><span style="font-weight: bold; font-style: italic;">ExecStart</span>=
+<span style="font-weight: bold; font-style: italic;">ExecStart</span>= new-script.sh
+</pre>
+</div></li>
+<li>Run systemctl enable in Containerfile to create symlinks for activating on
+boot
+<ul class="org-ul">
+<li>Alternative is to manually make symlinks under `multi-user.target.wants`
+dir etc.</li>
+</ul></li>
+
+<li>Manually make .mount files as kickstart is kinda ass.</li>
+
+<li>Mount file names <span class="underline"><span class="underline">MUST</span></span> be the same as the <code>Where=</code> field! Use
+<code>systemd-escape -p /some/path</code> to name units!
+<ul class="org-ul">
+<li>Eg. mount for <code>Where=/boot/efi</code> must be named <code>boot-efi.mount</code></li>
+<li>Failing to do this will cause systemd to "refuse" the mount.</li>
+</ul></li>
+
+<li>Use <code>ConditionFileExists</code> and co in Unit section to make one-time files like
+ssh host keys</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7e9985e" class="outline-2">
+<h2 id="org7e9985e">Kickstart gotchas</h2>
+<div class="outline-text-2" id="text-org7e9985e">
+<ul class="org-ul">
+<li>Transient etc will make stuff from kickstart NOT persist! Eg root password,
+hostname, fstab</li>
+
+<li>Use kickstart to make partitions, install and run a shell script to inject
+secrets and state like hostname to /var, then use tmpfiles.d to make symlinks!</li>
+
+<li>Do NOT refer to PyKickstart manual, use Rhel9 docs Appendix!</li>
+
+<li>Kickstart with autopart will happily make you a BIOS MBR system. MUST do
+manual partitioning!</li>
+
+<li>Hack: Use file system labels while making partitions in kickstart, then use
+<code>What=LABEL=foo</code> in systemd mount file.</li>
+
+<li>Ostree/bootc commands will NOT work at all if <code>/boot/loader</code> is missing.
+<ul class="org-ul">
+<li>You can have a efi booted system, but that does not mean /boot and/or
+/boot/efi is <b><b>mounted</b></b> at runtime.</li>
+</ul></li>
+
+<li>Do NOT use <code>bootloader</code> verb! It either does the wrong thing, or I am holding
+it wrong&#x2026;</li>
+
+<li>Manually specify file system type unless cool with default xfs.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org45f8627" class="outline-2">
+<h2 id="org45f8627">OSTree observations</h2>
+<div class="outline-text-2" id="text-org45f8627">
+<ul class="org-ul">
+<li>Whole system is a web of (bind) mounts. Bind mounts in bootc = symlinks in
+NixOS.</li>
+
+<li>Systemd service <code>ostree-finalize-staged.service</code> runs on shutdown, which
+"finalizes" the state of /etc and doing the 3-way merge stuff.
+<ul class="org-ul">
+<li>Stop this service if you want to forget changes to etc (when in non
+transient etc)</li>
+<li>This runs the currently undocumented command <code>ostree admin finalize-staged</code></li>
+</ul></li>
+
+<li>/var is populated once at first boot and never again. Do NOT rely on OSTree to
+fix your mistakes in /var!</li>
+
+<li>That said, a pristine /var does exist under /sysroot or /ostree for manual
+rsync'ing.</li>
+
+<li>For non transient etc, <code>ostree admin config-diff</code> will show how etc has
+diverged from the container image.</li>
+
+<li>Current OSTree tooling is too poor to reliably rollback commits and/or restore
+files IMO. In the future ideally it should let you deal with the rootfs like
+a git repo.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org607d1eb" class="outline-2">
+<h2 id="org607d1eb">Containerfile and general tips</h2>
+<div class="outline-text-2" id="text-org607d1eb">
+<ul class="org-ul">
+<li>What's a Dockerfile?</li>
+
+<li>Build layer caching and invalidation works top down, ie if something a layer
+at the TOP of the file has changed, all layers below are rebuilt and not used
+from cache!
+<ul class="org-ul">
+<li>Make layers in Decreasing order of likelihood of change - with stuff that
+you wont need to change towards the top</li>
+
+<li>Work in progress - Use multi-stage builds, maybe docker buildkit.</li>
+</ul></li>
+
+<li>There are no background daemons running in the container build.
+<ul class="org-ul">
+<li>Make systemd oneshot units to run commands that need a daemon or running
+system.</li>
+</ul></li>
+
+<li>Use drop-in <code>conf.d</code> directories for all software that supports them, which is
+mostly all relevant software. Makes it easier to manage, and in case of non
+transient etc probably helps with the 3-way going in your favour.</li>
+
+<li>MAKE SURE to match or be mindful of file permissions (mode and ownership)
+created via the container. Software may REQUIRE particular permissions!
+<ul class="org-ul">
+<li>Use chown/chmod <code>--reference=</code> to copy mode and perms of existing file.</li>
+</ul></li>
+
+<li>Add Kernel cmdline arguments by creating toml files with key "kargs" and value
+string array in <code>/usr/lib/bootc/kargs.d/</code>
+<ul class="org-ul">
+<li>A good one is <code>kargs = ["selinux=0"]</code></li>
+</ul></li>
+
+<li>Remember to <code>chmod +x</code> stuff you want to execute! I do it in the
+Containerfile.</li>
+
+<li>Use <code>usermod --password</code> to set the password hash for the root user.</li>
+
+<li><p>
+DKMS will not work at runtime due to immutability. Use this in Containerfile:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="font-weight: bold; font-style: italic;">kver</span>=$(<span style="font-weight: bold;">cd</span> /usr/lib/modules; <span style="font-weight: bold;">echo</span> *); /usr/sbin/dkms autoinstall --verbose
+--kernelver <span style="font-style: italic;">"$kver"</span>
+</pre>
+</div>
+<p>
+This will ensure dkms modules are compiled and installed at build time.
+</p>
+<ul class="org-ul">
+<li>dkms.service is disabled by default!</li>
+</ul></li>
+
+<li>Work in progress: Do not use <code>realmd</code> as it wants to edit a bunch of files in
+immutable/transient directories.
+<ul class="org-ul">
+<li>Configure sssd manually</li>
+<li>Use <code>adcli</code> to do the domain joining, set location for krb5.keytab in /var</li>
+<li>Figure a way to run <code>authselect</code> in Containerfile, or perhaps on every boot.</li>
+<li>Investigate realmd install root cli option.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf3f6adc" class="outline-2">
+<h2 id="orgf3f6adc">Nvidia Misery</h2>
+<div class="outline-text-2" id="text-orgf3f6adc">
+<ul class="org-ul">
+<li>Containerfile from fedora bootc examples doesn't work (for me atleast).
+<ul class="org-ul">
+<li>Doesn't install the actual kernel module</li>
+</ul></li>
+
+<li>Enable cuda-rhel9 repo, and enable module <code>nvidia-driver:latest-dkms</code>
+<ul class="org-ul">
+<li>Non-DKMS did not work for me, gave ugly dependency hell errors.</li>
+</ul></li>
+
+<li>Install packages "nvidia-driver-cuda" and "kmod-nvidia-latest-dkms"
+<ul class="org-ul">
+<li>These are the proprietary ones, haven't looked into the open ones.</li>
+</ul></li>
+
+<li>Build DKMS module using aforementioned trick</li>
+
+<li>Add kernel cmdline argument to blacklist nouveau</li>
+
+<li>Probably rebuild initramfs.</li>
+
+<li>TODO: Investigate ublue akmods repo.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<footer><hr />Made with Emacs <br /> CC-BY-SA </footer>
+</div>
+</body>
+</html>
