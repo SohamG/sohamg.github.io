@@ -12,7 +12,7 @@ user with minimal warning.
 These were originally written as notes/brain dump. The context is that I am
 trying to make a Slurm/Jupyter notebook cluster for my student org.
 
-** Use transient everything, especially transient /etc, otherwise:
+** Use transient everything, especially transient /etc
   
 - Files created manually stay in /etc forever, can't edir or delete via
   container upgrade.
@@ -57,16 +57,16 @@ trying to make a Slurm/Jupyter notebook cluster for my student org.
 - Use /var for machine specific files
 
 - Systemd Tricks:
-  + Use `/etc/systemd/service/foo.service.d/something.conf` to override existing
+  + Use =/etc/systemd/service/foo.service.d/something.conf= to override existing
     services.
   + While overriding, need to set list-able value to blank to overwrite.  Eg.
     #+BEGIN_SRC conf
       ExecStart=
-      ExecStart= new-script.sh
+      ExecStart=new-script.sh
     #+END_SRC
   + Run systemctl enable in Containerfile to create symlinks for activating on
     boot
-    * Alternative is to manually make symlinks under `multi-user.target.wants`
+    * Alternative is to manually make symlinks under =multi-user.target.wants=
       dir etc.
 
   + Manually make .mount files as kickstart is kinda ass.
@@ -114,7 +114,7 @@ trying to make a Slurm/Jupyter notebook cluster for my student org.
     transient etc)
   + This runs the currently undocumented command ~ostree admin finalize-staged~
 
-- /var is populated once at first boot and never again. Do NOT rely on OSTree to
+- /var is populated once at first boot and never again. Do *NOT* rely on OSTree to
   fix your mistakes in /var!
 
 - That said, a pristine /var does exist under /sysroot or /ostree for manual
@@ -154,7 +154,12 @@ trying to make a Slurm/Jupyter notebook cluster for my student org.
 
 - Add Kernel cmdline arguments by creating toml files with key "kargs" and value
   string array in ~/usr/lib/bootc/kargs.d/~
-  + A good one is ~kargs = ["selinux=0"]~
+  + A good one is:
+    #+BEGIN_SRC toml
+      # /usr/lib/bootc/kargs.d/10-selinux.conf
+      kargs = ["selinux=0"]
+    #+END_SRC
+    
 
 - Remember to =chmod +x= stuff you want to execute! I do it in the
   Containerfile.
