@@ -27,7 +27,7 @@
 	  ;; org-html-doctype "xhtml-strict"
 	 org-html-postamble "<footer><hr />Made with Emacs <br /> CC-BY-SA </footer>")
 
-(setq org-html-head (concat "<link rel=\"stylesheet\" href=\"static/style.css\" />"
+(setq org-html-head (concat "<link rel=\"stylesheet\" href=\"/static/style.css\" />"
 							"<meta property=\"og:title\" content=\"Soham's Website\" />"
 							"<meta property=\"og:url\" content=\"https://sohamg.xyz\" />"
 							"<meta property=\"og:image\""

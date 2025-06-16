@@ -9,3 +9,5 @@
 - [[file:resume.org][Soham's Resume]]
 - [[file:vim.org][Vim - The greatest text editor]]
 - [[file:tip.org][Would you like to leave a tip?]]
+- notes
+  - [[file:notes/bootc.org][Bootc and Rhel Image Mode]]
