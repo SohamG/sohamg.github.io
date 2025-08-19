@@ -1,5 +1,9 @@
 #+TITLE: Soham's Links
 
+* Linkedin
+
+https://www.linkedin.com/in/sohamg2
+
 * Github
 Personal: https://github.com/sohamg
 
@@ -7,8 +11,6 @@ Student Org:
 		- https://github.com/acm-uic
 		- https://github.com/lugatuic
 
-** Cerberus
-https://github.com/lugatuic/cerberus
 
 * Student Orgs
 Linux User Group @ UIC: https://lug.cs.uic.edu
