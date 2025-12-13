@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-08-25 Mon 21:04 -->
+<!-- 2025-12-13 Sat 23:25 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bootc and Rhel Image Mode</title>
@@ -15,12 +15,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4221afa">Use transient everything, especially transient /etc</a></li>
-<li><a href="#orgf0bb621">Transient etc gotchas</a></li>
-<li><a href="#orgbc89a0f">Kickstart gotchas</a></li>
-<li><a href="#org2ba2353">OSTree observations</a></li>
-<li><a href="#org9bb81ae">Containerfile and general tips</a></li>
-<li><a href="#org0e48544">Nvidia Misery</a></li>
+<li><a href="#orgd0e8bbc">Use transient everything, especially transient /etc</a></li>
+<li><a href="#org3aa2dad">Transient etc gotchas</a></li>
+<li><a href="#org292505f">Kickstart gotchas</a></li>
+<li><a href="#org10fd4bb">OSTree observations</a></li>
+<li><a href="#org8fbb421">Containerfile and general tips</a></li>
+<li><a href="#org7c64f26">Nvidia Misery</a></li>
 </ul>
 </div>
 </div>
@@ -41,9 +41,9 @@ These were originally written as notes/brain dump. The context is that I am
 trying to make a Slurm/Jupyter notebook cluster for my student org.
 </p>
 
-<div id="outline-container-org4221afa" class="outline-2">
-<h2 id="org4221afa">Use transient everything, especially transient /etc</h2>
-<div class="outline-text-2" id="text-org4221afa">
+<div id="outline-container-orgd0e8bbc" class="outline-2">
+<h2 id="orgd0e8bbc">Use transient everything, especially transient /etc</h2>
+<div class="outline-text-2" id="text-orgd0e8bbc">
 <ul class="org-ul">
 <li>Files created manually stay in /etc forever, can't edir or delete via
 container upgrade.</li>
@@ -61,9 +61,9 @@ container ACTUALLY propogate, are installed and functional.
 </div>
 </div>
 
-<div id="outline-container-orgf0bb621" class="outline-2">
-<h2 id="orgf0bb621">Transient etc gotchas</h2>
-<div class="outline-text-2" id="text-orgf0bb621">
+<div id="outline-container-org3aa2dad" class="outline-2">
+<h2 id="org3aa2dad">Transient etc gotchas</h2>
+<div class="outline-text-2" id="text-org3aa2dad">
 <ul class="org-ul">
 <li>Note that SELinux will have a stroke because of all this /etc and /var
 business. I turn it off completely.</li>
@@ -137,9 +137,9 @@ ssh host keys</li>
 </div>
 </div>
 
-<div id="outline-container-orgbc89a0f" class="outline-2">
-<h2 id="orgbc89a0f">Kickstart gotchas</h2>
-<div class="outline-text-2" id="text-orgbc89a0f">
+<div id="outline-container-org292505f" class="outline-2">
+<h2 id="org292505f">Kickstart gotchas</h2>
+<div class="outline-text-2" id="text-org292505f">
 <ul class="org-ul">
 <li>Transient etc will make stuff from kickstart NOT persist! Eg root password,
 hostname, fstab</li>
@@ -169,9 +169,9 @@ it wrong&#x2026;</li>
 </div>
 </div>
 
-<div id="outline-container-org2ba2353" class="outline-2">
-<h2 id="org2ba2353">OSTree observations</h2>
-<div class="outline-text-2" id="text-org2ba2353">
+<div id="outline-container-org10fd4bb" class="outline-2">
+<h2 id="org10fd4bb">OSTree observations</h2>
+<div class="outline-text-2" id="text-org10fd4bb">
 <ul class="org-ul">
 <li>Whole system is a web of (bind) mounts. Bind mounts in bootc = symlinks in
 NixOS.</li>
@@ -201,9 +201,9 @@ a git repo.</li>
 </div>
 
 
-<div id="outline-container-org9bb81ae" class="outline-2">
-<h2 id="org9bb81ae">Containerfile and general tips</h2>
-<div class="outline-text-2" id="text-org9bb81ae">
+<div id="outline-container-org8fbb421" class="outline-2">
+<h2 id="org8fbb421">Containerfile and general tips</h2>
+<div class="outline-text-2" id="text-org8fbb421">
 <ul class="org-ul">
 <li>What's a Dockerfile?</li>
 
@@ -281,9 +281,9 @@ immutable/transient directories.
 </div>
 </div>
 
-<div id="outline-container-org0e48544" class="outline-2">
-<h2 id="org0e48544">Nvidia Misery</h2>
-<div class="outline-text-2" id="text-org0e48544">
+<div id="outline-container-org7c64f26" class="outline-2">
+<h2 id="org7c64f26">Nvidia Misery</h2>
+<div class="outline-text-2" id="text-org7c64f26">
 <ul class="org-ul">
 <li>Containerfile from fedora bootc examples doesn't work (for me atleast).
 <ul class="org-ul">
