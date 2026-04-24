@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-04-24 Fri 10:59 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Creative way to get on the OSU VPN</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/static/style.css" /><meta property="og:title" content="Soham's Website" /><meta property="og:url" content="https://sohamg.xyz" /><meta property="og:image" content="https://sohamg.xyz/img.png" /> <link rel="me" href="https://discuss.systems/@zleet" /><meta property="og:type" content="website" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Creative way to get on the OSU VPN</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgbad7db2">DISCLAIMER</a></li>
+<li><a href="#org683fa4f">Proprietary/Closed Source VPN Software</a>
+<ul>
+<li><a href="#org20a6849">Reasons why OSU VPN client software is bad</a></li>
+</ul>
+</li>
+<li><a href="#org3a0cc4b">Getting on the VPN in a saner way</a>
+<ul>
+<li><a href="#org77e237a">OpenConnect, Cookies and Profit</a></li>
+<li><a href="#orgced5af7">Context</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbad7db2" class="outline-2">
+<h2 id="orgbad7db2">DISCLAIMER</h2>
+<div class="outline-text-2" id="text-orgbad7db2">
+<p>
+Attempting to circumvent the expected or required way to connect to VPN may
+violate both the Terms of Service of the provider and wacky laws like the
+<a href="https://en.wikipedia.org/wiki/Computer_Fraud_and_Abuse_Act">Computer Fraud and Abuse Act, 1986</a> which will toss you in prison for thinking
+weirdly about a computer for too long. Make sure to have lawyers on speed dial
+to not become another <a href="https://en.wikipedia.org/wiki/Aaron_Swartz">Aaron Schwartz</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org683fa4f" class="outline-2">
+<h2 id="org683fa4f">Proprietary/Closed Source VPN Software</h2>
+<div class="outline-text-2" id="text-org683fa4f">
+<p>
+The <a href="https://osucoe.service-now.com/kb/en/ivanti-secure-access-vpn-formerly-pulse?id=kb_article_view&amp;sysparm_article=KB0010166">OSU VPN</a> requires use of Pulse (formerly Ivanti) VPN Client software. This
+software suite is proprietary, i.e. closed source and unavailable for inspection
+or adaptation by anyone including end users. Given the nature of VPNs, this
+software needs to be run as <code>root</code> on your system, giving it unfettered access
+to ALL of your system. This is quite an uncomfortable arrangement.
+</p>
+
+<p>
+The software is also honestly quite bad. 
+</p>
+</div>
+
+<div id="outline-container-org20a6849" class="outline-3">
+<h3 id="org20a6849">Reasons why OSU VPN client software is bad</h3>
+<div class="outline-text-3" id="text-org20a6849">
+<ol class="org-ol">
+<li>Its proprietary software</li>
+<li>It must be run as root</li>
+<li>Further reasons are left as an exercise to the reader.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a0cc4b" class="outline-2">
+<h2 id="org3a0cc4b">Getting on the VPN in a saner way</h2>
+<div class="outline-text-2" id="text-org3a0cc4b">
+<p>
+Luckily, nerds on the internet™ have managed to cheese past this problem. Linux
+has the <a href="https://www.infradead.org/openconnect/">OpenConnect</a> project which implements a client for many of these
+proprietary VPN technologies. This is likely already installed on your system.
+</p>
+</div>
+
+<div id="outline-container-org77e237a" class="outline-3">
+<h3 id="org77e237a">OpenConnect, Cookies and Profit</h3>
+<div class="outline-text-3" id="text-org77e237a">
+<p>
+Steps to get on the VPN without the client, and in a terminal-friendly way:
+</p>
+
+<ol class="org-ol">
+<li>Go to <a href="https://vpn.coeit.osu.edu">vpn.coeit.osu.edu</a></li>
+<li>Log in "like usual". Click skip host check if needed and choose the SSL
+option.</li>
+<li>On the final "success" page, open the browsers</li>
+</ol>
+<p>
+<code>Developer Tools</code>. <code>Ctrl=Shift-i</code> on Firefox, probably something similar on Chromium.
+</p>
+<ol class="org-ol">
+<li>Navigate to the Cookies section in the DevTools. On Firefox this is under the
+storage tab.</li>
+<li>Copy the value of the cookie with key <code>DSID</code>. It should be a long
+hex-string. Double clicking on the string should make it selectable and
+copyable.</li>
+<li>Perform the following incantation:</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-sh">$ sudo openconnect --protocol=nc -C <span style="font-style: italic;">'DSID=&lt;paste value here&gt;'</span> vpn.coeit.osu.edu
+</pre>
+</div>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">$ sudo openconnect --protocol=nc -C <span style="font-style: italic;">'DSID=f344f052a403900a30a3e1d2ffa61674'</span> vpn.coeit.osu.edu
+</pre>
+</div>
+
+<p>
+Add the <code>-b</code> flag to the command to make this a background process.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgced5af7" class="outline-3">
+<h3 id="orgced5af7">Context</h3>
+<div class="outline-text-3" id="text-orgced5af7">
+<p>
+The VPN is of the "SSL VPN" family, rather than something more normal like
+OpenVPN or WireGuard. Authentication is done with cookies and web sessions cause
+the org wants to enforce 2fa and maintain the same Microsoft-based
+authentication stack used for everything else. 
+</p>
+
+<p>
+The official client also
+basically does the same thing by launching a browser window and fishing out the
+cookie to perform some sort of HTTP+TLS based authentication. However the
+official client suffers from the rather notable disadvantage of being dogshit
+software that also decides to download its own "browser" program.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<footer><hr />Made with Emacs <br /> CC-BY-SA </footer>
+</div>
+</body>
+</html>
