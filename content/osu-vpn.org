@@ -1,0 +1,70 @@
+#+TITLE: Creative way to get on the OSU VPN
+#+DATE: <2026-04-24 Fri>
+
+* DISCLAIMER
+
+Attempting to circumvent the expected or required way to connect to VPN may
+violate both the Terms of Service of the provider and wacky laws like the
+[[https://en.wikipedia.org/wiki/Computer_Fraud_and_Abuse_Act][Computer Fraud and Abuse Act, 1986]] which will toss you in prison for thinking
+weirdly about a computer for too long. Make sure to have lawyers on speed dial
+to not become another [[https://en.wikipedia.org/wiki/Aaron_Swartz][Aaron Schwartz]].
+
+* Proprietary/Closed Source VPN Software
+
+The [[https://osucoe.service-now.com/kb/en/ivanti-secure-access-vpn-formerly-pulse?id=kb_article_view&sysparm_article=KB0010166][OSU VPN]] requires use of Pulse (formerly Ivanti) VPN Client software. This
+software suite is proprietary, i.e. closed source and unavailable for inspection
+or adaptation by anyone including end users. Given the nature of VPNs, this
+software needs to be run as =root= on your system, giving it unfettered access
+to ALL of your system. This is quite an uncomfortable arrangement.
+
+The software is also honestly quite bad. 
+
+** Reasons why OSU VPN client software is bad
+1. Its proprietary software
+2. It must be run as root
+3. Further reasons are left as an exercise to the reader.
+
+* Getting on the VPN in a saner way
+
+Luckily, nerds on the internet™ have managed to cheese past this problem. Linux
+has the [[https://www.infradead.org/openconnect/][OpenConnect]] project which implements a client for many of these
+proprietary VPN technologies. This is likely already installed on your system.
+
+** OpenConnect, Cookies and Profit
+
+Steps to get on the VPN without the client, and in a terminal-friendly way:
+
+1. Go to [[https://vpn.coeit.osu.edu][vpn.coeit.osu.edu]]
+2. Log in "like usual". Click skip host check if needed and choose the SSL
+   option.
+3. On the final "success" page, open the browsers 
+=Developer Tools=. =Ctrl=Shift-i= on Firefox, probably something similar on Chromium.
+4. Navigate to the Cookies section in the DevTools. On Firefox this is under the
+   storage tab.
+5. Copy the value of the cookie with key =DSID=. It should be a long
+   hex-string. Double clicking on the string should make it selectable and
+   copyable.
+6. Perform the following incantation:
+#+BEGIN_SRC sh
+$ sudo openconnect --protocol=nc -C 'DSID=<paste value here>' vpn.coeit.osu.edu
+#+END_SRC
+
+Example:
+#+BEGIN_SRC sh
+$ sudo openconnect --protocol=nc -C 'DSID=f344f052a403900a30a3e1d2ffa61674' vpn.coeit.osu.edu
+#+END_SRC
+
+Add the =-b= flag to the command to make this a background process.
+
+** Context
+
+The VPN is of the "SSL VPN" family, rather than something more normal like
+OpenVPN or WireGuard. Authentication is done with cookies and web sessions cause
+the org wants to enforce 2fa and maintain the same Microsoft-based
+authentication stack used for everything else. 
+
+The official client also
+basically does the same thing by launching a browser window and fishing out the
+cookie to perform some sort of HTTP+TLS based authentication. However the
+official client suffers from the rather notable disadvantage of being dogshit
+software that also decides to download its own "browser" program.
